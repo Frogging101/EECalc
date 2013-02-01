@@ -1,0 +1,13 @@
+package eecalc;
+
+public class EECalc {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
