@@ -26,6 +26,7 @@ public class Menu {
 				break;
 			case 0:
 				EECalc.main(null);
+				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
 				valid = false;
@@ -54,6 +55,7 @@ public class Menu {
 				break;
 			case 0:
 				EECalc.main(null);
+				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
 				valid = false;
@@ -86,6 +88,7 @@ public class Menu {
 				//resistance
 			case 0:
 				EECalc.main(null);
+				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
 				valid = false;
@@ -114,6 +117,7 @@ public class Menu {
 				break;
 			case 0:
 				EECalc.main(null);
+				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
 				valid = false;
