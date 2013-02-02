@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class EECalc {
-
+	static boolean started = false;
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -14,7 +14,9 @@ public class EECalc {
 		int selection = 0; //Selection number; corresponds to numbers displayed next to choices
 		boolean valid = true;
 		
-		System.out.println("-----Electrical Engineering Calculator-----\n");
+		if(started == false)
+			System.out.println("-----Electrical Engineering Calculator-----\n");
+		started = true;
 		System.out.println("Home");
 		System.out.println("==========");
 		
@@ -24,42 +26,45 @@ public class EECalc {
 				"4. RC Filters\n" +
 				"5. Battery Life\n" +
 				"6. Ohm's Law\n" +
-				"7. Wavelength/Frequency Conversion\n");
+				"7. Wavelength/Frequency Conversion\n" +
+				"0. Exit program\n");
 		
 		do{
 			valid = true;
 			selection = getSelection();
 			switch(selection){
-				case 1:
-					seriesParallelMenu();
-					break;
-				case 2:
-					//voltage dividers
-					break;
-				case 3:
-					//resonant circuits
-					break;
-				case 4:
-					//rc filters
-					break;
-				case 5:
-					//battery life
-					break;
-				case 6:
-					//ohm's law
-					break;
-				case 7:	
-					//freqwave
-					break;
-				default:
-					System.out.println("Invalid selection. Please try again.\n");
-					valid = false;
-					break;
+			case 1:
+				Menu.seriesParallelMenu();
+				break;
+			case 2:
+				Menu.voltageDividerMenu();
+				break;
+			case 3:
+				//resonant circuits
+				break;
+			case 4:
+				//rc filters
+				break;
+			case 5:
+				//battery life
+				break;
+			case 6:
+				Menu.ohmsLawMenu();
+				break;
+			case 7:	
+				Menu.freqWaveMenu();
+				break;
+			case 0:
+				System.exit(0);
+			default:
+				System.out.println("Invalid selection. Please try again.\n");
+				valid = false;
+				break;
 			}
 		}while(valid==false);
 	}
 	
-	private static int getSelection(){
+	public static int getSelection(){
 		int selection = 0;
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		boolean valid = true;
@@ -77,16 +82,7 @@ public class EECalc {
 				System.exit(1);
 			}
 		}while(valid == false); //Do this until the user enters something valid
+		System.out.println();
 		return selection;
-	}
-	private static void seriesParallelMenu(){
-		int selection = 0;
-		
-		System.out.println("Series/Parallel Components");
-		System.out.println("==========");
-		System.out.println("1. Resistors\n" +
-				"2. Capacitors\n" +
-				"3. Inductors\n");
-		selection = getSelection();
 	}
 }
