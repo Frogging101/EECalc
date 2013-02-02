@@ -16,7 +16,7 @@ public class Menu {
 			selection = EECalc.getSelection();
 			switch(selection){
 			case 1:
-				//resistors
+				Calculator.spResistance();
 				break;
 			case 2:
 				//capacitors
