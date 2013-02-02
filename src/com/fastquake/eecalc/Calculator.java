@@ -3,6 +3,7 @@ package com.fastquake.eecalc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 
 public class Calculator {
 	public static void spResistance(){
@@ -36,11 +37,13 @@ public class Calculator {
 		if(config == 1)
 			for(int i=0;i<valueCount;i++)
 				resistance += resistances[i];
-		if(config == 2)
+		if(config == 2){
 			for(int i=0;i<valueCount;i++){
 				resistance += 1/resistances[i];
 			}
-		resistance = 1/resistance;
+			resistance = 1/resistance;
+		}
+		makePrefix(resistance);
 		System.out.println(resistance);
 	}
 	private static double handleInput()
@@ -105,5 +108,13 @@ public class Calculator {
 			
 		}while(valid == false);
 		return inputNum;
+	}
+	
+	private static String makePrefix(double input)
+	{
+		DecimalFormat df = new DecimalFormat("0.###E0");
+		String formattedInput = df.format(input);
+		
+		return "";
 	}
 }
