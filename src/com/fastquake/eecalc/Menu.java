@@ -2,7 +2,7 @@ package com.fastquake.eecalc;
 
 public class Menu {
 	public static void seriesParallelMenu(){
-		int selection = 0;
+		int selection = 0; //
 		boolean valid = true;
 		
 		System.out.println("Series/Parallel Components");
@@ -25,7 +25,7 @@ public class Menu {
 				//inductors
 				break;
 			case 0:
-				EECalc.main(null);
+				EECalc.main(null); //Go back to main method
 				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
@@ -54,7 +54,7 @@ public class Menu {
 				//capacitive
 				break;
 			case 0:
-				EECalc.main(null);
+				EECalc.main(null); //Go back to main method
 				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
@@ -87,7 +87,7 @@ public class Menu {
 			case 3:
 				//resistance
 			case 0:
-				EECalc.main(null);
+				EECalc.main(null); //Go back to main method
 				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");
@@ -116,7 +116,7 @@ public class Menu {
 				//wavelength
 				break;
 			case 0:
-				EECalc.main(null);
+				EECalc.main(null); //Go back to main method
 				break;
 			default:
 				System.out.println("Invalid selection. Please try again.\n");

@@ -76,10 +76,10 @@ public class EECalc {
 			catch(NumberFormatException e){
 				System.out.println("Invalid input. Please try again\n");
 				valid = false;
-			} catch (IOException e) {
-				System.out.println("An IOException has occurred. This should /NEVER/ happen!");
-				e.printStackTrace();
-				System.exit(1);
+			} catch (IOException e) { //This seriously will never happen
+				System.out.println("An IOException has occurred. This should /NEVER/ happen!"); //Scream
+				e.printStackTrace(); //Burn
+				System.exit(1); //Die
 			}
 		}while(valid == false); //Do this until the user enters something valid
 		System.out.println();
