@@ -15,7 +15,7 @@ public class Calculator {
 		System.out.println("Series/Parallel Resistance");
 		System.out.println("==========");
 		while(true){ //Loop until broken
-			System.out.print("Enter 1 for series or 2 for parallel: ");
+			System.out.println("Enter 1 for series or 2 for parallel. ");
 			config = EECalc.getSelection();
 			if(config != 1 && config != 2){
 				System.out.println("Invalid selection. Please try again."); //It can only be 1 or 2
@@ -39,8 +39,8 @@ public class Calculator {
 		if(config == 2)
 			for(int i=0;i<valueCount;i++){
 				resistance += 1/resistances[i];
-				resistance = 1/resistance;
 			}
+		resistance = 1/resistance;
 		System.out.println(resistance);
 	}
 	private static double handleInput()
