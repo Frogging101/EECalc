@@ -1,4 +1,4 @@
-package eecalc;
+package com.fastquake.eecalc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +10,8 @@ public class EECalc {
 	 * @param args
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException {
-		int selection = 0;
+	public static void main(String[] args){
+		int selection = 0; //Selection number; corresponds to numbers displayed next to choices
 		boolean valid = true;
 		
 		System.out.println("-----Electrical Engineering Calculator-----\n");
@@ -31,7 +31,7 @@ public class EECalc {
 			selection = getSelection();
 			switch(selection){
 				case 1:
-					//series parallel
+					seriesParallelMenu();
 					break;
 				case 2:
 					//voltage dividers
@@ -59,7 +59,7 @@ public class EECalc {
 		}while(valid==false);
 	}
 	
-	private static int getSelection() throws IOException{
+	private static int getSelection(){
 		int selection = 0;
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		boolean valid = true;
@@ -71,8 +71,22 @@ public class EECalc {
 			catch(NumberFormatException e){
 				System.out.println("Invalid input. Please try again\n");
 				valid = false;
+			} catch (IOException e) {
+				System.out.println("An IOException has occurred. This should /NEVER/ happen!");
+				e.printStackTrace();
+				System.exit(1);
 			}
-		}while(valid == false);
+		}while(valid == false); //Do this until the user enters something valid
 		return selection;
+	}
+	private static void seriesParallelMenu(){
+		int selection = 0;
+		
+		System.out.println("Series/Parallel Components");
+		System.out.println("==========");
+		System.out.println("1. Resistors\n" +
+				"2. Capacitors\n" +
+				"3. Inductors\n");
+		selection = getSelection();
 	}
 }
