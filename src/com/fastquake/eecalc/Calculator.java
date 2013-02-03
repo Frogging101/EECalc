@@ -40,10 +40,7 @@ public class Calculator {
 			resistance = 1/resistance;
 		}
 		System.out.println("\nThe total resistance is: " + makeSuffix(resistance,"") + " ohms");
-		System.out.println("Press Enter to return to the main menu.");
-		Scanner keyIn = new Scanner(System.in);
-		keyIn.nextLine();
-		EECalc.main(null);
+		returnPrompt();
 	}
 	
 	public static void spCapacitance(){
@@ -74,10 +71,7 @@ public class Calculator {
 				capacitance += capacitances[i];
 		}
 		System.out.println("\nThe total capacitance is: "+makeSuffix(capacitance,"F"));
-		System.out.println("Press Enter to return to the main menu.");
-		Scanner keyIn = new Scanner(System.in);
-		keyIn.nextLine();
-		EECalc.main(null);
+		returnPrompt();
 	}
 	
 	public static void spInductance(){
@@ -109,10 +103,7 @@ public class Calculator {
 			}
 		}
 		System.out.println("\nThe total inductance is: "+makeSuffix(inductance,"H"));
-		System.out.println("Press Enter to return to the main menu.");
-		Scanner keyIn = new Scanner(System.in);
-		keyIn.nextLine();
-		EECalc.main(null);
+		returnPrompt();
 	}
 	
 	public static void voltageDivider()
@@ -158,10 +149,24 @@ public class Calculator {
 		}while(valid == false);
 		vout = (R2/(R1+R2))*V1;
 		System.out.println("\nOutput voltage (Vout) is "+makeSuffix(vout,"V"));
-		System.out.println("Press Enter to return to the main menu.");
-		Scanner keyIn = new Scanner(System.in);
-		keyIn.nextLine();
-		EECalc.main(null);
+		returnPrompt();
+	}
+	
+	public static void resonantCircuit()
+	{
+		double inductance = 0;
+		double capacitance = 0;
+		double frequency = 0;
+		
+		System.out.print("Enter the value of L (Inductor) (e.g. 10uH): ");
+		inductance = handleInput();
+		System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
+		capacitance = handleInput();
+		
+		frequency = 1/(2*Math.PI*Math.sqrt(inductance*capacitance));
+		
+		System.out.println("\nThe resonant frequency of this circuit is "+makeSuffix(frequency,"Hz"));
+		returnPrompt();
 	}
 	
 	private static SpResult getArray(String component)
@@ -297,7 +302,9 @@ public class Calculator {
 		
 		scientificNotation -= remainder;
 		
-		if(scientificNotation==3)
+		if(scientificNotation==6)
+			suffix = "M";
+		else if(scientificNotation==3)
 			suffix = "k";
 		else if(scientificNotation==-3)
 			suffix = "m";
@@ -310,5 +317,12 @@ public class Calculator {
 			suffix = "p";
 		
 		return df2.format(number)+suffix+unit;
+	}
+	
+	private static void returnPrompt(){
+		System.out.println("Press Enter to return to the main menu.");
+		Scanner keyIn = new Scanner(System.in);
+		keyIn.nextLine();
+		EECalc.main(null);
 	}
 }

@@ -40,7 +40,7 @@ public class EECalc {
 				Calculator.voltageDivider();
 				break;
 			case 3:
-				//resonant circuits
+				Calculator.resonantCircuit();
 				break;
 			case 4:
 				//rc filters
