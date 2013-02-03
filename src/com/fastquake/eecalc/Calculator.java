@@ -423,7 +423,7 @@ public class Calculator {
 					break;
 			}
 			if(!suffixExists)
-				inputNum = Double.parseDouble(inputStr);
+				return Double.parseDouble(inputStr);
 			if(parseSuffix == 0)
 			{
 				return inputNum; //Just return the number and ignore the suffix
