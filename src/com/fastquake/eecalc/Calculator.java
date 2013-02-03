@@ -7,12 +7,14 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Calculator {
+	static int size = 50; //Default array size
+	
 	public static void spResistance(){
 		int config = -1; //1 for series, 2 for parallel
-		boolean done = false; //This is set to true when the user is finished inputting values
-		double[] resistances = new double[50]; //Array to store resistances
 		int valueCount = 0; //Number of values in the array
+		double[] resistances;
 		double resistance = 0; //Final calculated resistance
+		SpResult result;
 		
 		System.out.println("Series/Parallel Resistance");
 		System.out.println("==========");
@@ -24,25 +26,10 @@ public class Calculator {
 				continue;}
 			break;
 			}
-		for(int i=0;done==false;i++){
-			if(i==0) //For user-friendliness, say "first resistor" for the first one only
-				System.out.println("Enter the value the first resistor, or enter 0 to end: ");
-			else
-				System.out.println("Enter the value of another resistor, or enter 0 to end: ");
-			double current = 0;
-			try{
-				current = handleInput();}
-			catch(NumberFormatException e)
-			{
-				i--; //This is to ensure that the index doesn't get moved up when this happens
-				continue;
-			}
-			if(current == 0){
-				done = true; //If the user enters 0, they are done inputting values
-				valueCount = i;} //Set value count to current index
-			else
-				resistances[i] = current; //Set current array index to inputted value
-		}
+		result = getArray("resistor");
+		resistances = result.values;
+		valueCount = result.valueCount;
+		
 		if(config == 1) //If the user selected series calculation
 			for(int i=0;i<valueCount;i++) //For every resistor
 				resistance += resistances[i];
@@ -59,6 +46,51 @@ public class Calculator {
 		EECalc.main(null);
 	}
 	
+	public static void spCapacitance(){
+		int config = -1;
+		double[] capacitances = new double[size];
+		
+		while(true){ //Loop until broken
+			System.out.println("Enter 1 for series or 2 for parallel. ");
+			config = EECalc.getSelection();
+			if(config != 1 && config != 2){
+				System.out.println("Invalid selection. Please try again."); //It can only be 1 or 2
+				continue;}
+			break;
+			}
+		
+	}
+	
+	private static SpResult getArray(String component)
+	{
+		double[] values = new double[size]; //Array to store resistances
+		int valueCount = 0;
+		boolean done = false; //This is set to true when the user is finished inputting values;
+		SpResult result = new SpResult();
+		
+		for(int i=0;done==false;i++){
+			if(i==0) //For user-friendliness, say "first resistor" for the first one only
+				System.out.println("Enter the value the first "+component+", or enter 0 to end: ");
+			else
+				System.out.println("Enter the value of another "+component+", or enter 0 to end: ");
+			double current = 0;
+			try{
+				current = handleInput();}
+			catch(NumberFormatException e)
+			{
+				i--; //This is to ensure that the index doesn't get moved up when this happens
+				continue;
+			}
+			if(current == 0){
+				done = true; //If the user enters 0, they are done inputting values
+				valueCount = i;} //Set value count to current index
+			else
+				values[i] = current; //Set current array index to inputted value
+		}
+		result.valueCount = valueCount;
+		result.values = values;
+		return result;
+	}
 	private static double handleInput() throws NumberFormatException
 	{
 		/* The purpose of this function is to
@@ -137,7 +169,7 @@ public class Calculator {
 		DecimalFormat df2 = new DecimalFormat("#.##"); //Final output format
 		String formattedInput = df.format(input);
 		int scientificNotation = 0; //This will be the exponentiation; 1.234E4 would make this 4
-		double number = 0; //This will be the number before the scientic notation
+		double number = 0; //This will be the number before the scientific notation
 							//For example, 1.234E4 would make this 1.234
 		int remainder = 0; //This is part of the formula to make a suffix
 		String suffix = "";
