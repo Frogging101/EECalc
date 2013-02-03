@@ -117,7 +117,12 @@ public class Calculator {
 	
 	public static void voltageDivider()
 	{
-		System.out.print("Vin\n"+
+		double R1 = 0;
+		double R2 = 0;
+		double V1 = 0;
+		double vout = 0;
+		boolean valid = true;
+		System.out.println("Vin\n"+
 				 " |\n"+
 				 " |\n"+
 				 " -\n"+
@@ -135,7 +140,28 @@ public class Calculator {
 				 " -\n"+
 				 " |\n"+
 				 " |\n"+
-				 "0V");
+				 "0V\n");
+		
+		do{
+			valid = true;
+			try{
+				System.out.print("Enter value of V1 (e.g. 9V): ");
+				V1 = handleInput();
+				System.out.print("Enter value of R1 (e.g. 10k): ");
+				R1 = handleInput();
+				System.out.print("Enter value of R2 (e.g. 1k): ");
+				R2 = handleInput();
+			}catch(NumberFormatException e)
+			{
+				valid = false;
+			}
+		}while(valid == false);
+		vout = (R2/(R1+R2))*V1;
+		System.out.println("\nOutput voltage (Vout) is "+makeSuffix(vout,"V"));
+		System.out.println("Press Enter to return to the main menu.");
+		Scanner keyIn = new Scanner(System.in);
+		keyIn.nextLine();
+		EECalc.main(null);
 	}
 	
 	private static SpResult getArray(String component)
@@ -147,9 +173,9 @@ public class Calculator {
 		
 		for(int i=0;done==false;i++){
 			if(i==0) //For user-friendliness, say "first resistor" for the first one only
-				System.out.println("Enter the value the first "+component+", or enter 0 to end: ");
+				System.out.print("Enter the value the first "+component+", or enter 0 to end: ");
 			else
-				System.out.println("Enter the value of another "+component+", or enter 0 to end: ");
+				System.out.print("Enter the value of another "+component+", or enter 0 to end: ");
 			double current = 0;
 			try{
 				current = handleInput();}
@@ -194,7 +220,7 @@ public class Calculator {
 			
 			if(inputStr.equals(""))
 			{
-				System.out.println("Your input cannot be empty. Please try again.");
+				System.out.println("Your input cannot be empty. Please try again.\n");
 				throw new NumberFormatException();
 			}
 			
@@ -212,8 +238,7 @@ public class Calculator {
 			}
 			if(!suffixExists)
 				inputNum = Double.parseDouble(inputStr);
-			if(suffix == "MF" || suffix == "MH" || suffix == "M" ||
-				suffix == "mF" || suffix == "mH")
+			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV"))
 			{
 				inputNum = inputNum*Math.pow(10,6);
 				return inputNum;
@@ -221,17 +246,17 @@ public class Calculator {
 			suffix = suffix.toLowerCase(); //Converts suffix to lowercase to make the input case-insensitive
 			
 			//The if-else block below uses the suffix to determine the exponentiation of the result
-			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p"))
+			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p") || suffix.equals("pv"))
 				inputNum = inputNum*Math.pow(10, -12);
-			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n"))
+			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n") || suffix.equals("nv"))
 				inputNum = inputNum*Math.pow(10, -9);
-			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u"))
+			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u") || suffix.equals("uv"))
 				inputNum = inputNum*Math.pow(10, -6);
-			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m"))
+			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv"))
 				inputNum = inputNum*Math.pow(10,-3);
-			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals(""))
+			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v"))
 				return inputNum;
-			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k"))
+			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv"))
 				inputNum = inputNum*Math.pow(10, 3);
 			else{
 				System.out.println("Invalid suffix. Please try again.");
