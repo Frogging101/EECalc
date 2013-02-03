@@ -259,6 +259,11 @@ public class Calculator {
 				capacity = (int) handleInput(0); //Casting to int because there's only one possible unit to use for this formula
 				System.out.print("Enter the current where the battery connects to the circuit in mA (e.g. 100mA): ");
 				current = (int) handleInput(0);
+				if(current == 0)
+				{
+					System.out.println("The current cannot be 0. Please try again.\n");
+					valid = false;
+				}
 			}catch(NumberFormatException e){
 				valid = false;
 			}
@@ -341,7 +346,50 @@ public class Calculator {
 			unitR = " ohms";
 		}
 		System.out.println("The "+variableStr+" is "+makeSuffix(result,unit) + unitR);
+		returnPrompt();
 	}
+	
+	/**
+	 * Frequency/Wavelength conversion calculator function
+	 * @param variable Equal to 1 for frequency input, 2 for wavelength input
+	 */
+	public static void freqWave(int variable)
+	{
+		double frequency = 0;
+		double wavelength = 0;
+		int lightspeed = 299792458;
+		boolean valid = true;
+		
+		if(variable == 1)
+		{
+			do{
+				System.out.print("Enter the frequency (e.g. 10MHz): ");
+				try{
+					frequency = handleInput();}
+				catch(NumberFormatException e){
+					valid = false;
+				}
+			}while(valid == false);
+			
+			System.out.println("The wavelength is "+makeSuffix(lightspeed/frequency,"m"));
+			returnPrompt();
+		}
+		
+		if(variable == 2)
+		{
+			do{
+				System.out.print("Enter the wavelength (e.g. 10m): ");
+				try{
+					wavelength = handleInput();}
+				catch(NumberFormatException e){
+					valid = false;
+				}
+			}while(valid == false);
+			
+			System.out.println("The frequency is "+makeSuffix(lightspeed/wavelength,"Hz"));
+			returnPrompt();
+		}
+	}	
 	
 	/**
 	 * Gets multiple values as input from the user, and places them in an array.
@@ -428,7 +476,8 @@ public class Calculator {
 			{
 				return inputNum; //Just return the number and ignore the suffix
 			}
-			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV") || suffix.equals("MA"))
+			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV") || suffix.equals("MA") ||
+					suffix.equals("MHz"))
 			{
 				inputNum = inputNum*Math.pow(10,6);
 				return inputNum;
@@ -436,17 +485,23 @@ public class Calculator {
 			suffix = suffix.toLowerCase(); //Converts suffix to lowercase to make the input case-insensitive
 			
 			//The if-else block below uses the suffix to determine the exponentiation of the result
-			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p") || suffix.equals("pv") || suffix.equals("pa"))
+			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p") || suffix.equals("pv") || suffix.equals("pa") ||
+					suffix.equals("pm"))
 				inputNum = inputNum*Math.pow(10, -12);
-			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n") || suffix.equals("nv") || suffix.equals("na"))
+			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n") || suffix.equals("nv") || suffix.equals("na") ||
+					suffix.equals("nm"))
 				inputNum = inputNum*Math.pow(10, -9);
-			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u") || suffix.equals("uv") || suffix.equals("ua"))
+			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u") || suffix.equals("uv") || suffix.equals("ua") ||
+					suffix.equals("um"))
 				inputNum = inputNum*Math.pow(10, -6);
-			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv") || suffix.equals("ma"))
+			else if(suffix.equals("mf") || suffix.equals("mh") || /*suffix.equals("m") ||*/ suffix.equals("mv") || suffix.equals("ma") ||
+					suffix.equals("mm"))
 				inputNum = inputNum*Math.pow(10,-3);
-			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v") || suffix.equals("a"))
+			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v") || suffix.equals("a") ||
+					suffix.equals("hz") || suffix.equals("m"))
 				return inputNum;
-			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv") || suffix.equals("ka"))
+			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv") || suffix.equals("ka") ||
+					suffix.equals("khz") || suffix.equals("km"))
 				inputNum = inputNum*Math.pow(10, 3);
 			else{
 				System.out.print("Invalid suffix. Please try again: ");
@@ -511,7 +566,9 @@ public class Calculator {
 		
 		scientificNotation -= remainder;
 		
-		if(scientificNotation==6)
+		if (scientificNotation==9)
+			suffix = "G";
+		else if(scientificNotation==6)
 			suffix = "M";
 		else if(scientificNotation==3)
 			suffix = "k";

@@ -109,18 +109,18 @@ public class Menu {
 		
 		System.out.println("Frequency/Wavelength Conversion");
 		System.out.println("==========");
-		System.out.println("1. Frequency\n" +
-				"2. Wavelength\n" +
+		System.out.println("1. Frequency -> Wavelength\n" +
+				"2. Frequency <- Wavelength\n" +
 				"0. Return to main menu");
 		do{
 			valid = true;
 			selection = EECalc.getSelection();
 			switch(selection){
 			case 1:
-				//frequency
+				Calculator.freqWave(1);
 				break;
 			case 2:
-				//wavelength
+				Calculator.freqWave(2);
 				break;
 			case 0:
 				EECalc.main(null); //Go back to main method
