@@ -23,30 +23,38 @@ public class Calculator {
 				continue;}
 			break;
 			}
-		System.out.println("Enter the value of the first resistor (e.g. 10k): ");
-		resistances[0] = handleInput();
-		for(int i=1;done==false;i++){
-			System.out.println("Enter the value of another resistor, or enter 0 to end: ");
-			double current = handleInput();
+		for(int i=0;done==false;i++){
+			if(i==0) //For user-friendliness, say "first resistor" for the first one only
+				System.out.println("Enter the value the first resistor, or enter 0 to end: ");
+			else
+				System.out.println("Enter the value of another resistor, or enter 0 to end: ");
+			double current = 0;
+			try{
+				current = handleInput();}
+			catch(NumberFormatException e)
+			{
+				i--; //This is to ensure that the index doesn't get moved up when this happens
+				continue;
+			}
 			if(current == 0){
 				done = true; //If the user enters 0, they are done inputting values
 				valueCount = i;} //Set value count to current index
 			else
 				resistances[i] = current; //Set current array index to inputted value
 		}
-		if(config == 1)
-			for(int i=0;i<valueCount;i++)
+		if(config == 1) //If the user selected series calculation
+			for(int i=0;i<valueCount;i++) //For every resistor
 				resistance += resistances[i];
-		if(config == 2){
-			for(int i=0;i<valueCount;i++){
+		if(config == 2){ //If the user selected parallel calculation
+			for(int i=0;i<valueCount;i++){ //For every resistor
 				resistance += 1/resistances[i];
 			}
 			resistance = 1/resistance;
 		}
-		makePrefix(resistance);
-		System.out.println(resistance);
+		System.out.println(makeSuffix(resistance,""));
 	}
-	private static double handleInput()
+	
+	private static double handleInput() throws NumberFormatException
 	{
 		/* The purpose of this function is to
 		 * parse the exponent modifiers (suffixes like k, pF, nH, etc.)
@@ -66,6 +74,12 @@ public class Calculator {
 				System.out.println("An IOException has occurred. This should /NEVER/ happen!"); //Scream
 				e.printStackTrace(); //Burn
 				System.exit(1); //Die
+			}
+			
+			if(inputStr.equals(""))
+			{
+				System.out.println("Your input cannot be empty. Please try again.");
+				throw new NumberFormatException();
 			}
 			
 			char c; //Character to check
@@ -90,6 +104,7 @@ public class Calculator {
 			}
 			suffix = suffix.toLowerCase(); //Converts suffix to lowercase to make the input case-insensitive
 			
+			//The if-else block below uses the suffix to determine the exponentiation of the result
 			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p"))
 				inputNum = inputNum*Math.pow(10, -12);
 			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n"))
@@ -110,11 +125,49 @@ public class Calculator {
 		return inputNum;
 	}
 	
-	private static String makePrefix(double input)
+	private static String makeSuffix(double input, String unit)
 	{
-		DecimalFormat df = new DecimalFormat("0.###E0");
+		DecimalFormat df = new DecimalFormat("0.###E0"); //Scientific notation DecimalFormat
+		DecimalFormat df2 = new DecimalFormat("#.##"); //Final output format
 		String formattedInput = df.format(input);
+		int scientificNotation = 0; //This will be the exponentiation; 1.234E4 would make this 4
+		double number = 0; //This will be the number before the scientic notation
+							//For example, 1.234E4 would make this 1.234
+		int remainder = 0; //This is part of the formula to make a suffix
+		String suffix = "";
 		
-		return "";
+		char c;
+		for(int i=0;i<formattedInput.length();i++){
+			c = formattedInput.charAt(i);
+			if(!Character.isDigit(c) && c != '.'){ //Checks if character is neither a number or a decimal point
+				scientificNotation = Integer.parseInt(formattedInput.substring(i+1, formattedInput.length())); //Get exponent, which should 
+																	//be from after the E to the end of the string
+				
+				number = Double.parseDouble(formattedInput.substring(0,i));
+				break;
+			}
+		}
+		
+		if(scientificNotation<0) //Different formulae are needed for + and -, or it won't work correctly.
+			remainder = Math.abs(scientificNotation % 3 + 3);
+		else
+			remainder = scientificNotation % 3;
+		number = number*Math.pow(10,remainder);
+		
+		scientificNotation -= remainder;
+		
+		if(scientificNotation==3)
+			suffix = "k";
+		else if(scientificNotation==-3)
+			suffix = "m";
+		else if(scientificNotation==-6)
+			//suffix = "\u03BC";
+			suffix = "u"; //"mu" unicode does not display on all systems
+		else if(scientificNotation==-9)
+			suffix = "n";
+		else if(scientificNotation==-12)
+			suffix = "p";
+		
+		return df2.format(number)+suffix+unit;
 	}
 }
