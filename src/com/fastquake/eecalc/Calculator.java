@@ -80,6 +80,41 @@ public class Calculator {
 		EECalc.main(null);
 	}
 	
+	public static void spInductance(){
+		int config = -1;
+		double[] inductances = new double[size];
+		double inductance = 0;
+		int valueCount = 0;
+		SpResult result;
+		
+		while(true){ //Loop until broken
+			System.out.println("Enter 1 for series or 2 for parallel. ");
+			config = EECalc.getSelection();
+			if(config != 1 && config != 2){
+				System.out.println("Invalid selection. Please try again."); //It can only be 1 or 2
+				continue;}
+			break;
+			}
+		result = getArray("inductor");
+		inductances = result.values;
+		valueCount = result.valueCount;
+		
+		if(config == 1) //If the user selected series calculation
+			for(int i=0;i<valueCount;i++) //For every inductor
+				inductance += inductances[i];
+		if(config == 2){ //If the user selected parallel calculation
+			for(int i=0;i<valueCount;i++){ //For every inductor
+				inductance += inductances[i];
+			inductance = 1/inductance;
+			}
+		}
+		System.out.println("\nThe total inductance is: "+makeSuffix(inductance,"H"));
+		System.out.println("Press Enter to return to the main menu.");
+		Scanner keyIn = new Scanner(System.in);
+		keyIn.nextLine();
+		EECalc.main(null);
+	}
+	
 	private static SpResult getArray(String component)
 	{
 		double[] values = new double[size]; //Array to store resistances

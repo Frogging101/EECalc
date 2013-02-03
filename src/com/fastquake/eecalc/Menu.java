@@ -22,7 +22,7 @@ public class Menu {
 				Calculator.spCapacitance();
 				break;
 			case 3:
-				//inductors
+				Calculator.spInductance();
 				break;
 			case 0:
 				EECalc.main(null); //Go back to main method
