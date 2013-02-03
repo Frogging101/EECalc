@@ -19,7 +19,7 @@ public class Menu {
 				Calculator.spResistance();
 				break;
 			case 2:
-				//capacitors
+				Calculator.spCapacitance();
 				break;
 			case 3:
 				//inductors

@@ -49,6 +49,9 @@ public class Calculator {
 	public static void spCapacitance(){
 		int config = -1;
 		double[] capacitances = new double[size];
+		double capacitance = 0;
+		int valueCount = 0;
+		SpResult result;
 		
 		while(true){ //Loop until broken
 			System.out.println("Enter 1 for series or 2 for parallel. ");
@@ -58,7 +61,23 @@ public class Calculator {
 				continue;}
 			break;
 			}
+		result = getArray("capacitor");
+		capacitances = result.values;
+		valueCount = result.valueCount;
 		
+		if(config == 1){ //If the user selected series calculation
+			for(int i=0;i<valueCount;i++) //For every capacitor
+				capacitance += 1/capacitances[i];
+		capacitance = 1/capacitance;}
+		if(config == 2) //If the user selected parallel calculation
+			for(int i=0;i<valueCount;i++){ //For every capacitor
+				capacitance += capacitances[i];
+		}
+		System.out.println("\nThe total capacitance is: "+makeSuffix(capacitance,"F"));
+		System.out.println("Press Enter to return to the main menu.");
+		Scanner keyIn = new Scanner(System.in);
+		keyIn.nextLine();
+		EECalc.main(null);
 	}
 	
 	private static SpResult getArray(String component)
