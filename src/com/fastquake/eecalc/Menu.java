@@ -1,5 +1,10 @@
 package com.fastquake.eecalc;
 
+/**
+ * Contains methods to display submenus
+ * @author John
+ *
+ */
 public class Menu {
 	public static void seriesParallelMenu(){
 		int selection = 0; //

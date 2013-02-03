@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+/**
+ * Contains all calculator methods and their helpers.
+ * @author Frogging101
+ *
+ */
 public class Calculator {
 	static int size = 50; //Default array size
 	
@@ -182,14 +187,22 @@ public class Calculator {
 		double capacitance = 0; //Input value
 		double frequency = 0; //Output value
 		double reactance = 0; //Output value
+		boolean valid = true;
 		
 		System.out.println("LC Circuit");
 		System.out.println("==========");
 		
-		System.out.print("Enter the value of L (Inductor) (e.g. 10uH): ");
-		inductance = handleInput();
-		System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
-		capacitance = handleInput();
+		do{
+			valid = true;
+			try{
+				System.out.print("Enter the value of L (Inductor) (e.g. 10uH): ");
+				inductance = handleInput();
+				System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
+				capacitance = handleInput();
+			}catch(NumberFormatException e){
+				valid = false;
+			}
+		}while(valid == false);
 		
 		frequency = 1/(2*Math.PI*Math.sqrt(inductance*capacitance));
 		reactance = 2*Math.PI*frequency*inductance; //Reactance is the same for both components; Inductance was an arbitrary choice
@@ -207,14 +220,51 @@ public class Calculator {
 		double resistance = 0; //Input value
 		double capacitance = 0; //Input value
 		double cornerFrequency = 0; //Output value
+		boolean valid = true;
 		
-		System.out.print("Enter the value of R (Resistor) (e.g. 1k): ");
-		resistance = handleInput();
-		System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
-		capacitance = handleInput();
+		do{
+			valid = true;
+			try{
+				System.out.print("Enter the value of R (Resistor) (e.g. 1k): ");
+				resistance = handleInput();
+				System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
+				capacitance = handleInput();
+				}catch(NumberFormatException e){
+					valid = false;
+				}
+		}while(valid == false);
 		
 		cornerFrequency = 1/(2*Math.PI*resistance*capacitance);
 		System.out.println("The corner frequency of this RC filter is: "+makeSuffix(cornerFrequency,"Hz"));
+		returnPrompt();
+	}
+	
+	/**
+	 * Battery life calculator function
+	 */
+	public static void batteryLife()
+	{
+		int capacity = 0;
+		int current = 0;
+		boolean valid = true;
+		
+		System.out.println("Battery Life");
+		System.out.println("==========");
+		
+		do{
+			valid = true;
+			try{
+				System.out.print("Enter the battery capacity in mAh (e.g. 1200mAh): ");
+				capacity = (int) handleInput(); //Casting to int because there's only one possible unit to use for this formula
+				System.out.print("Enter the current where the battery connects to the circuit in mA (e.g. 100mA): ");
+				current = (int) handleInput();
+			}catch(NumberFormatException e){
+				valid = false;
+			}
+		}while(valid == false);
+		
+		System.out.println("\nThe battery will last for "+capacity/current+" hour(s)." );
+		returnPrompt();
 	}
 	
 	/**
@@ -317,12 +367,13 @@ public class Calculator {
 				inputNum = inputNum*Math.pow(10, -6);
 			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv"))
 				inputNum = inputNum*Math.pow(10,-3);
-			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v"))
+			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v") || suffix.equals("mah")
+					|| suffix.equals("ma"))
 				return inputNum;
 			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv"))
 				inputNum = inputNum*Math.pow(10, 3);
 			else{
-				System.out.println("Invalid suffix. Please try again.");
+				System.out.print("Invalid suffix. Please try again: ");
 				valid = false;}
 			
 		}while(valid == false);

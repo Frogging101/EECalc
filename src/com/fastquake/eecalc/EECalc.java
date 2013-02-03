@@ -46,7 +46,7 @@ public class EECalc {
 				Calculator.rcFilter();
 				break;
 			case 5:
-				//battery life
+				Calculator.batteryLife();
 				break;
 			case 6:
 				Menu.ohmsLawMenu();
