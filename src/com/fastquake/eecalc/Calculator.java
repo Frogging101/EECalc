@@ -115,6 +115,29 @@ public class Calculator {
 		EECalc.main(null);
 	}
 	
+	public static void voltageDivider()
+	{
+		System.out.print("Vin\n"+
+				 " |\n"+
+				 " |\n"+
+				 " -\n"+
+				"| |\n"+ 
+				"| | R1\n"+
+				"| |\n"+
+				 " -\n"+
+				 " |\n"+
+				 " ------- Vout\n"+
+				 " |\n"+
+				 " -\n"+
+				"| |\n"+
+				"| | R2\n"+
+				"| |\n"+
+				 " -\n"+
+				 " |\n"+
+				 " |\n"+
+				 "0V");
+	}
+	
 	private static SpResult getArray(String component)
 	{
 		double[] values = new double[size]; //Array to store resistances
@@ -145,6 +168,7 @@ public class Calculator {
 		result.values = values;
 		return result;
 	}
+	
 	private static double handleInput() throws NumberFormatException
 	{
 		/* The purpose of this function is to

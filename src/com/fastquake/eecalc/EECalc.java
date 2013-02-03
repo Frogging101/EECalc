@@ -37,7 +37,8 @@ public class EECalc {
 				Menu.seriesParallelMenu();
 				break;
 			case 2:
-				Menu.voltageDividerMenu();
+				//Menu.voltageDividerMenu();
+				Calculator.voltageDivider();
 				break;
 			case 3:
 				//resonant circuits
