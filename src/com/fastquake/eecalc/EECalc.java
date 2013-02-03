@@ -43,7 +43,7 @@ public class EECalc {
 				Calculator.resonantCircuit();
 				break;
 			case 4:
-				//rc filters
+				Calculator.rcFilter();
 				break;
 			case 5:
 				//battery life

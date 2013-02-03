@@ -50,6 +50,9 @@ public class Calculator {
 		int valueCount = 0;
 		SpResult result;
 		
+		System.out.println("Series/Parallel Capacitance");
+		System.out.println("==========");
+		
 		while(true){ //Loop until broken
 			System.out.println("Enter 1 for series or 2 for parallel. ");
 			config = EECalc.getSelection();
@@ -81,6 +84,9 @@ public class Calculator {
 		int valueCount = 0;
 		SpResult result;
 		
+		System.out.println("Series/Parallel Inductance");
+		System.out.println("==========");
+		
 		while(true){ //Loop until broken
 			System.out.println("Enter 1 for series or 2 for parallel. ");
 			config = EECalc.getSelection();
@@ -108,6 +114,9 @@ public class Calculator {
 	
 	public static void voltageDivider()
 	{
+		System.out.println("Voltage Divider");
+		System.out.println("==========");
+		
 		double R1 = 0; //R1, R2 and V1 are input values
 		double R2 = 0;
 		double V1 = 0;
@@ -153,11 +162,14 @@ public class Calculator {
 	}
 	
 	public static void resonantCircuit()
-	{
+	{		
 		double inductance = 0; //Input value
 		double capacitance = 0; //Input value
 		double frequency = 0; //Output value
 		double reactance = 0; //Output value
+		
+		System.out.println("LC Circuit");
+		System.out.println("==========");
 		
 		System.out.print("Enter the value of L (Inductor) (e.g. 10uH): ");
 		inductance = handleInput();
@@ -170,6 +182,21 @@ public class Calculator {
 		System.out.println("\nThe resonant frequency of this circuit is "+makeSuffix(frequency,"Hz"));
 		System.out.println("The reactance of the components is: "+makeSuffix(reactance,"")+" ohms.");
 		returnPrompt();
+	}
+	
+	public static void rcFilter()
+	{
+		double resistance = 0; //Input value
+		double capacitance = 0; //Input value
+		double cornerFrequency = 0; //Output value
+		
+		System.out.print("Enter the value of R (Resistor) (e.g. 1k): ");
+		resistance = handleInput();
+		System.out.print("Enter the value of C (Capacitor) (e.g. 10nF): ");
+		capacitance = handleInput();
+		
+		cornerFrequency = 1/(2*Math.PI*resistance*capacitance);
+		System.out.println("The corner frequency of this RC filter is: "+makeSuffix(cornerFrequency,"Hz"));
 	}
 	
 	private static SpResult getArray(String component)
