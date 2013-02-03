@@ -9,6 +9,9 @@ import java.util.Scanner;
 public class Calculator {
 	static int size = 50; //Default array size
 	
+	/**
+	 * Series/Parallel resistor calculator function
+	 */
 	public static void spResistance(){
 		int config = -1; //1 for series, 2 for parallel
 		int valueCount = 0; //Number of values in the array
@@ -39,10 +42,13 @@ public class Calculator {
 			}
 			resistance = 1/resistance;
 		}
-		System.out.println("\nThe total resistance is: " + makeSuffix(resistance,"") + " ohms");
+		System.out.println("\nThe total resistance is " + makeSuffix(resistance,"") + " ohms");
 		returnPrompt();
 	}
 	
+	/**
+	 * Series/Parallel capacitor calculator function
+	 */
 	public static void spCapacitance(){
 		int config = -1; 
 		double[] capacitances = new double[size]; //Array of inputted capacitances
@@ -73,10 +79,13 @@ public class Calculator {
 			for(int i=0;i<valueCount;i++){ //For every capacitor
 				capacitance += capacitances[i];
 		}
-		System.out.println("\nThe total capacitance is: "+makeSuffix(capacitance,"F"));
+		System.out.println("\nThe total capacitance is "+makeSuffix(capacitance,"F"));
 		returnPrompt();
 	}
 	
+	/**
+	 * Series/Parallel inductor calculator function
+	 */
 	public static void spInductance(){
 		int config = -1;
 		double[] inductances = new double[size]; //Array of inputted inductances
@@ -108,10 +117,13 @@ public class Calculator {
 			inductance = 1/inductance;
 			}
 		}
-		System.out.println("\nThe total inductance is: "+makeSuffix(inductance,"H"));
+		System.out.println("\nThe total inductance is "+makeSuffix(inductance,"H"));
 		returnPrompt();
 	}
 	
+	/**
+	 * Voltage divider calculator function
+	 */
 	public static void voltageDivider()
 	{
 		System.out.println("Voltage Divider");
@@ -161,6 +173,9 @@ public class Calculator {
 		returnPrompt();
 	}
 	
+	/**
+	 * LC Filter calculator function
+	 */
 	public static void resonantCircuit()
 	{		
 		double inductance = 0; //Input value
@@ -180,10 +195,13 @@ public class Calculator {
 		reactance = 2*Math.PI*frequency*inductance; //Reactance is the same for both components; Inductance was an arbitrary choice
 		
 		System.out.println("\nThe resonant frequency of this circuit is "+makeSuffix(frequency,"Hz"));
-		System.out.println("The reactance of the components is: "+makeSuffix(reactance,"")+" ohms.");
+		System.out.println("The reactance of the components is "+makeSuffix(reactance,"")+" ohms.");
 		returnPrompt();
 	}
 	
+	/**
+	 * RC Filter calculator function
+	 */
 	public static void rcFilter()
 	{
 		double resistance = 0; //Input value
@@ -199,6 +217,11 @@ public class Calculator {
 		System.out.println("The corner frequency of this RC filter is: "+makeSuffix(cornerFrequency,"Hz"));
 	}
 	
+	/**
+	 * Gets multiple values as input from the user, and places them in an array.
+	 * @param component The component name, as a string. This is used to ask the user to input a value.
+	 * @return
+	 */
 	private static SpResult getArray(String component)
 	{
 		double[] values = new double[size]; //Array to store resistances
@@ -230,6 +253,11 @@ public class Calculator {
 		return result;
 	}
 	
+	/**
+	 * Gets input from the user and parses it based on a suffix at the end of it.
+	 * "50mV" will become 0.05, for example.
+	 * @throws NumberFormatException
+	 */
 	private static double handleInput() throws NumberFormatException
 	{
 		/* The purpose of this function is to
@@ -301,8 +329,24 @@ public class Calculator {
 		return inputNum;
 	}
 	
+	/**
+	 * Takes an input and returns a user-friendly string displaying the number along with
+	 * a suffix if necessary.
+	 * @param input
+	 * @param unit A unit string that will be appended to the output
+	 * @return A string such as "1.59KHz"
+	 */
 	private static String makeSuffix(double input, String unit)
 	{
+		/* The program will crash if it attempts to parse an infinite or broken value.
+		 * To react to this, the program will gracefully handle the weird result and inform the user
+		 * that their input was probably faulty.
+		 */
+		if(Double.isInfinite(input))
+			return "Infinity. This can happen if you entered zero (or other impossible values).";
+		else if(Double.isNaN(input))
+			return "NaN. This can happen if you entered zero (or other impossible values).";
+		
 		DecimalFormat df = new DecimalFormat("0.###E0"); //Scientific notation DecimalFormat
 		DecimalFormat df2 = new DecimalFormat("#.##"); //Final output format
 		String formattedInput = df.format(input);
@@ -349,6 +393,9 @@ public class Calculator {
 		return df2.format(number)+suffix+unit;
 	}
 	
+	/**
+	 * Simply prompts the user to press enter to return to the main menu.
+	 */
 	private static void returnPrompt(){
 		System.out.println("Press Enter to return to the main menu.");
 		Scanner keyIn = new Scanner(System.in);

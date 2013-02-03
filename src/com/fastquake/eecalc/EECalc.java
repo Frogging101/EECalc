@@ -64,6 +64,10 @@ public class EECalc {
 		}while(valid==false);
 	}
 	
+	/**
+	 * Asks the user to make a numeric selection; used for menu navigation.
+	 * @return The integer value of the user's selection
+	 */
 	public static int getSelection(){
 		int selection = 0;
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
