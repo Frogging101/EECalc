@@ -44,9 +44,9 @@ public class Calculator {
 	}
 	
 	public static void spCapacitance(){
-		int config = -1;
-		double[] capacitances = new double[size];
-		double capacitance = 0;
+		int config = -1; 
+		double[] capacitances = new double[size]; //Array of inputted capacitances
+		double capacitance = 0; //Total capacitance
 		int valueCount = 0;
 		SpResult result;
 		
@@ -76,8 +76,8 @@ public class Calculator {
 	
 	public static void spInductance(){
 		int config = -1;
-		double[] inductances = new double[size];
-		double inductance = 0;
+		double[] inductances = new double[size]; //Array of inputted inductances
+		double inductance = 0; //Total inductance
 		int valueCount = 0;
 		SpResult result;
 		
@@ -108,10 +108,10 @@ public class Calculator {
 	
 	public static void voltageDivider()
 	{
-		double R1 = 0;
+		double R1 = 0; //R1, R2 and V1 are input values
 		double R2 = 0;
 		double V1 = 0;
-		double vout = 0;
+		double vout = 0; //This is the output value
 		boolean valid = true;
 		System.out.println("Vin\n"+
 				 " |\n"+
@@ -154,9 +154,10 @@ public class Calculator {
 	
 	public static void resonantCircuit()
 	{
-		double inductance = 0;
-		double capacitance = 0;
-		double frequency = 0;
+		double inductance = 0; //Input value
+		double capacitance = 0; //Input value
+		double frequency = 0; //Output value
+		double reactance = 0; //Output value
 		
 		System.out.print("Enter the value of L (Inductor) (e.g. 10uH): ");
 		inductance = handleInput();
@@ -164,8 +165,10 @@ public class Calculator {
 		capacitance = handleInput();
 		
 		frequency = 1/(2*Math.PI*Math.sqrt(inductance*capacitance));
+		reactance = 2*Math.PI*frequency*inductance; //Reactance is the same for both components; Inductance was an arbitrary choice
 		
 		System.out.println("\nThe resonant frequency of this circuit is "+makeSuffix(frequency,"Hz"));
+		System.out.println("The reactance of the components is: "+makeSuffix(reactance,"")+" ohms.");
 		returnPrompt();
 	}
 	

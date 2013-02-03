@@ -23,7 +23,7 @@ public class EECalc {
 		System.out.println("1. Series/Parallel Components\n" +
 				"2. Voltage Dividers\n" +
 				"3. Resonant Circuits\n" +
-				"4. RC Filters\n" +
+				"4. RC Filter Corner Frequency\n" +
 				"5. Battery Life\n" +
 				"6. Ohm's Law\n" +
 				"7. Wavelength/Frequency Conversion\n" +
