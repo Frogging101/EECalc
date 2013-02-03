@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 public class Calculator {
 	public static void spResistance(){
@@ -51,7 +52,11 @@ public class Calculator {
 			}
 			resistance = 1/resistance;
 		}
-		System.out.println(makeSuffix(resistance,""));
+		System.out.println("\nThe total resistance is: " + makeSuffix(resistance,"") + " ohms");
+		System.out.println("Press Enter to return to the main menu.");
+		Scanner keyIn = new Scanner(System.in);
+		keyIn.nextLine();
+		EECalc.main(null);
 	}
 	
 	private static double handleInput() throws NumberFormatException
