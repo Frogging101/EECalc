@@ -67,12 +67,13 @@ public class Calculator {
 		 */
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		boolean valid = true;
-		boolean suffixExists = false; //If there is a suffix, this will be true
+		boolean suffixExists; //If there is a suffix, this will be true
 		String suffix = ""; //Unit suffix such as pF, nH, k, etc.
 		String inputStr = ""; //Input string
 		double inputNum = 0;
 		do{
 			valid = true;
+			suffixExists = false;
 			try {
 				inputStr = input.readLine();
 			} catch (IOException e) { //This seriously will never happen
