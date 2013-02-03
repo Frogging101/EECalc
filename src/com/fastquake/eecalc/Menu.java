@@ -34,6 +34,7 @@ public class Menu {
 			}
 		}while(valid==false);
 	}
+	/*
 	public static void voltageDividerMenu(){
 		int selection = 0;
 		boolean valid = true;
@@ -63,7 +64,7 @@ public class Menu {
 			}
 		}while(valid==false);
 	}
-	
+	*/
 	public static void ohmsLawMenu(){
 		int selection = 0;
 		boolean valid = true;
