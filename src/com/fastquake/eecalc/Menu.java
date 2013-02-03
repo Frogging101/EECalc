@@ -74,7 +74,7 @@ public class Menu {
 		int selection = 0;
 		boolean valid = true;
 		
-		System.out.println("Series/Parallel Components");
+		System.out.println("Ohm's Law");
 		System.out.println("==========");
 		System.out.println("1. Voltage\n" +
 				"2. Current\n" +
@@ -85,13 +85,14 @@ public class Menu {
 			selection = EECalc.getSelection();
 			switch(selection){
 			case 1:
-				//voltage
+				Calculator.ohmsLaw(1);
 				break;
 			case 2:
-				//current
+				Calculator.ohmsLaw(2);
 				break;
 			case 3:
-				//resistance
+				Calculator.ohmsLaw(3);
+				break;
 			case 0:
 				EECalc.main(null); //Go back to main method
 				break;
@@ -106,7 +107,7 @@ public class Menu {
 		int selection = 0;
 		boolean valid = true;
 		
-		System.out.println("Series/Parallel Components");
+		System.out.println("Frequency/Wavelength Conversion");
 		System.out.println("==========");
 		System.out.println("1. Frequency\n" +
 				"2. Wavelength\n" +

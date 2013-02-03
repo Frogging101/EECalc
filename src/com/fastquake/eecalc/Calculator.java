@@ -267,6 +267,81 @@ public class Calculator {
 		System.out.println("\nThe battery will last for "+capacity/current+" hour(s)." );
 		returnPrompt();
 	}
+
+	/**
+	 * Ohm's Law calculator function
+	 * @param variable Equal to 1 for voltage, 2 for current, 3 for resistance
+	 */
+	public static void ohmsLaw(int variable)
+	{
+		double voltage = 0; //voltage, current and resistance are potential inputs
+		double current = 0;
+		double resistance = 0;
+		double result = 0; //This will be set equal to one of the above depending on the user's menu selection
+		String variableStr = ""; //This will be used in displaying the result
+		String unit = ""; //This will also be used in displaying the result
+		String unitR = ""; //If the selection was resistance, this will be defined and displayed at the end
+		boolean valid = true;
+		
+		// The code in the if statements below is mostly repetitive
+		// but it's not enough to justify creating a more complex but
+		// more modular function to handle it.
+		
+		if(variable == 1){
+			do{
+				valid = true;
+				try{
+					System.out.print("Enter the current (e.g. 500mA): ");
+					current = handleInput();
+					System.out.print("Enter the resistance (e.g. 1k): ");
+					resistance = handleInput();
+				}catch(NumberFormatException e){
+					valid = false;
+				}
+			}while(valid == false);
+			voltage = current*resistance; //Calculate the voltage
+			result = voltage;
+			variableStr = "voltage";
+			unit = "V";
+		}
+		
+		if(variable == 2){
+			do{
+				valid = true;
+				try{
+					System.out.print("Enter the voltage (e.g. 9V): ");
+					voltage = handleInput();
+					System.out.print("Enter the resistance (e.g. 1k): ");
+					resistance = handleInput();
+				}catch(NumberFormatException e){
+					valid = false;
+				}
+			}while(valid == false);
+			current = voltage/resistance; //Calculate the current
+			result = current;
+			variableStr = "current";
+			unit = "A";
+		}
+		
+		if(variable == 3){
+			do{
+				valid = true;
+				try{
+					System.out.print("Enter the voltage (e.g. 9V): ");
+					voltage = handleInput();
+					System.out.print("Enter the current (e.g. 500mA): ");
+					current = handleInput();
+				}catch(NumberFormatException e){
+					valid = false;
+				}
+			}while(valid == false);
+			resistance = voltage/current; //Calculate the resistance 
+			result = resistance;
+			variableStr = "resistance";
+			unitR = " ohms";
+		}
+		System.out.println("The "+variableStr+" is "+makeSuffix(result,unit) + unitR);
+	}
 	
 	/**
 	 * Gets multiple values as input from the user, and places them in an array.
@@ -353,7 +428,7 @@ public class Calculator {
 			{
 				return inputNum; //Just return the number and ignore the suffix
 			}
-			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV"))
+			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV") || suffix.equals("MA"))
 			{
 				inputNum = inputNum*Math.pow(10,6);
 				return inputNum;
@@ -361,17 +436,17 @@ public class Calculator {
 			suffix = suffix.toLowerCase(); //Converts suffix to lowercase to make the input case-insensitive
 			
 			//The if-else block below uses the suffix to determine the exponentiation of the result
-			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p") || suffix.equals("pv"))
+			if(suffix.equals("pf") || suffix.equals("ph") || suffix.equals("p") || suffix.equals("pv") || suffix.equals("pa"))
 				inputNum = inputNum*Math.pow(10, -12);
-			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n") || suffix.equals("nv"))
+			else if(suffix.equals("nf") || suffix.equals("nh") || suffix.equals("n") || suffix.equals("nv") || suffix.equals("na"))
 				inputNum = inputNum*Math.pow(10, -9);
-			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u") || suffix.equals("uv"))
+			else if(suffix.equals("uf") || suffix.equals("uh") || suffix.equals("u") || suffix.equals("uv") || suffix.equals("ua"))
 				inputNum = inputNum*Math.pow(10, -6);
-			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv"))
+			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv") || suffix.equals("ma"))
 				inputNum = inputNum*Math.pow(10,-3);
-			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v"))
+			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v") || suffix.equals("a"))
 				return inputNum;
-			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv"))
+			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv") || suffix.equals("ka"))
 				inputNum = inputNum*Math.pow(10, 3);
 			else{
 				System.out.print("Invalid suffix. Please try again: ");
