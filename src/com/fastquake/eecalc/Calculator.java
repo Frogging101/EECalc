@@ -255,9 +255,10 @@ public class Calculator {
 			valid = true;
 			try{
 				System.out.print("Enter the battery capacity in mAh (e.g. 1200mAh): ");
-				capacity = (int) handleInput(); //Casting to int because there's only one possible unit to use for this formula
+				//The suffix will be ignored for these inputs below
+				capacity = (int) handleInput(0); //Casting to int because there's only one possible unit to use for this formula
 				System.out.print("Enter the current where the battery connects to the circuit in mA (e.g. 100mA): ");
-				current = (int) handleInput();
+				current = (int) handleInput(0);
 			}catch(NumberFormatException e){
 				valid = false;
 			}
@@ -306,14 +307,11 @@ public class Calculator {
 	/**
 	 * Gets input from the user and parses it based on a suffix at the end of it.
 	 * "50mV" will become 0.05, for example.
+	 * @param parsePrefix Optional, tells the method to parse the prefix or just throw it away
 	 * @throws NumberFormatException
 	 */
-	private static double handleInput() throws NumberFormatException
+	private static double handleInput(int parseSuffix) throws NumberFormatException
 	{
-		/* The purpose of this function is to
-		 * parse the exponent modifiers (suffixes like k, pF, nH, etc.)
-		 * and return a double containing a decimal representation of the number.
-		 */
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		boolean valid = true;
 		boolean suffixExists; //If there is a suffix, this will be true
@@ -351,6 +349,10 @@ public class Calculator {
 			}
 			if(!suffixExists)
 				inputNum = Double.parseDouble(inputStr);
+			if(parseSuffix == 0)
+			{
+				return inputNum; //Just return the number and ignore the suffix
+			}
 			if(suffix.equals("MF") || suffix.equals("MH") || suffix.equals("M") || suffix.equals("MV"))
 			{
 				inputNum = inputNum*Math.pow(10,6);
@@ -367,8 +369,7 @@ public class Calculator {
 				inputNum = inputNum*Math.pow(10, -6);
 			else if(suffix.equals("mf") || suffix.equals("mh") || suffix.equals("m") || suffix.equals("mv"))
 				inputNum = inputNum*Math.pow(10,-3);
-			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v") || suffix.equals("mah")
-					|| suffix.equals("ma"))
+			else if(suffix.equals("f") || suffix.equals("h") || suffix.equals("") || suffix.equals("v"))
 				return inputNum;
 			else if(suffix.equals("kf") || suffix.equals("kh") || suffix.equals("k") || suffix.equals("kv"))
 				inputNum = inputNum*Math.pow(10, 3);
@@ -378,6 +379,14 @@ public class Calculator {
 			
 		}while(valid == false);
 		return inputNum;
+	}
+	
+	/**
+	 * Optional-parameter version of handleInput
+	 * @throws NumberFormatException
+	 */
+	private static double handleInput() throws NumberFormatException{
+		return handleInput(1);
 	}
 	
 	/**
